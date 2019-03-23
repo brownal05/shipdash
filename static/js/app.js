@@ -29,7 +29,7 @@ init();
 function buildMetadata(chrtr) {
 
  
-    d3.json("/fixtures/" + chrtr).then(function(response){
+    d3.json("/Charterers/" + chrtr).then(function(response){
       console.log(response);
       selection = d3.select("#chrtr-stats")
       console.log(selection)

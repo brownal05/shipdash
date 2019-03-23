@@ -28,38 +28,42 @@ def names():
 
     return jsonify(list(df.Charterer.unique()))
 
-@app.route("/fixtures/<fixture>")
+@app.route("/Charterers/<chrtr>")
 def fixture_data(fixture):
-    sel = [
-        Fixtures.Charterer,
-        Fixtures.Comment,
-        Fixtures.Date,
-        Fixtures.Disch,
-        Fixtures.Grade,
-        Fixtures.Load,
-        Fixtures.Owner,
-        Fixtures.Rate,
-        Fixtures.Size,
-        Fixtures.Status,
-        Fixtures.Vessel,
-        Fixtures.Year
-    ]
-    results = db.session.query(*sel).filter(Fixtures.Charterer == fixture).all()
-    fixtures = {}
-    for result in results:
-        fixtures["Vessle"] = result[10]
-        fixtures["Size"] = result[8]
-        fixtures["Grade"] = results[4]
-        fixtures["Load"] = results[5]
-        fixtures["Discharge"] = results[3]
-        fixtures["Rate"] = results[7]
-        fixtures["Laycan"] = results[2]
-        fixtures["Owner"] = results[6]
-        fixtures["Comments"] = results[1]
-        fixtures["Charterer"] = results[0]
+    stmt = db.session.query(Fixtures).statement
+    results = session.query(Fixtures).all()
+    all_fixtures = []
+    for fixtures in results:
+        fixture_dict = {}
+        fixture_dict["Vessel"] = fixtures.Vessel
+        fixture_dict["Size"] = fixtures.Size
+        fixture_dict["Grade"] = fixtures.Grade
+        fixture_dict["Load"] = fixtures.Load
+        fixture_dict["Discharge"] = fixtures.Disch
+        fixture_dict["Date"] = fixtures.Date
+        fixture_dict["Charterer"] = fixtures.Charterer
+        fixture_dict["Owner"] = fixtures.Owner
+        all_fixtures.append( fixture_dict)
 
-    print(fixtures)
-    return jsonify(fixtures)
+    print(all_fixtures)
+    return jsonify(all_fixtures)
 
 if __name__ == "__main__":
     app.run()
+
+
+    # sel = [
+    #     Fixtures.Charterer,
+    #     Fixtures.Comment,
+    #     Fixtures.Date,
+    #     Fixtures.Disch,
+    #     Fixtures.Grade,
+    #     Fixtures.Load,
+    #     Fixtures.Owner,
+    #     Fixtures.Rate,
+    #     Fixtures.Size,
+    #     Fixtures.Status,
+    #     Fixtures.Vessel,
+    #     Fixtures.Year
+    # ]
+    # 
